@@ -26,4 +26,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * A user can upload many books.
+     * 
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function uploadedBooks()
+    {
+        return $this->hasMany(Book::class);
+    }
 }

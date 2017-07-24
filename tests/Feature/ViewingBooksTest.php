@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Book;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -45,5 +46,22 @@ class ViewingBooksTest extends TestCase
 	    $response = $this->get("books/{$book->id}");
 
 	    $response->assertStatus(404);
+	}
+
+	/** @test */
+	public function can_view_all_of_a_users_books()
+	{
+	    $user = factory(User::class)->create();
+
+	    $book = factory(Book::class)->make([
+	    	'title'   => 'The Count of Monte Cristo',
+	    	'user_id' => $user->id
+    	])->toArray();
+
+	    $response = $this->postJson('books', $book);
+	    
+	    $response->assertJson([
+	    	'title' => 'The Count of Monte Cristo'
+    	]);
 	}
 }

@@ -22,8 +22,8 @@ class BooksController extends Controller
     		'price'			=> 'required|integer|min:1'
 		]);
 
-    	Book::create(request()->only(['title', 'author', 'description', 'price', 'release_date', 'published_at']));
+    	$book = Book::create(request()->only(['title', 'author', 'description', 'price', 'release_date', 'published_at', 'user_id']));
 
-    	return response()->json([], 201);
+    	return response()->json($book, 201);
     }
 }

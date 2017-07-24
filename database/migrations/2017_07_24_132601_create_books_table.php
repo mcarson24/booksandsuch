@@ -20,6 +20,11 @@ class CreateBooksTable extends Migration
             $table->dateTime('release_date');
             $table->text('description');
             $table->integer('price');
+            $table->unsignedInteger('user_id');
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('users')
+                  ->onDelete('cascade');
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
         });

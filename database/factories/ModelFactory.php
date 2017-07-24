@@ -25,7 +25,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Book::class, function (Faker\Generator $faker) {
     return [
-        'title' 		=> 'The Best Sample Book',
+        'title' 		=> $faker->sentence,
         'author' 		=> 'Thomas Author',
         'release_date'	=> \Carbon\Carbon::parse('January 1, 2017'),
         'description' 	=> $faker->paragraph,
