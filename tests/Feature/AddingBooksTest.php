@@ -10,6 +10,14 @@ class AddingBooksTest extends TestCase
 {
 	use DatabaseMigrations;
 
+	private $response;
+
+	private function assertHasValidationError($field)
+	{
+		$this->response->assertStatus(422);
+        $this->assertArrayHasKey($field, $this->response->decodeResponseJson());
+	}
+
     /** @test */
     public function a_user_can_add_an_unpublished_book()
     {
@@ -17,7 +25,7 @@ class AddingBooksTest extends TestCase
 
     	$book = factory(Book::class)->make();
 
-        $this->post('books', [
+        $response = $this->post('books', [
         	'title' 		=> $book->title,
         	'author'		=> $book->author,
         	'release_date'	=> $book->release_date,
@@ -30,6 +38,8 @@ class AddingBooksTest extends TestCase
     		'author' 		=> $book->author,
     		'published_at'	=> null
 		]);
+
+		$response->assertStatus(201);
     }
 
     /** @test */
@@ -52,5 +62,44 @@ class AddingBooksTest extends TestCase
 
         $response->assertStatus(422);
         $this->assertArrayHasKey('author', $response->decodeResponseJson());
+    }
+
+    /** @test */
+    public function a_book_must_have_description()
+    {
+        $book = factory(Book::class)->make(['description' => null])->toArray();
+
+        $this->response = $this->postJson('books', $book);
+
+        $this->assertHasValidationError('description');
+    }
+
+    /** @test */
+    public function a_book_must_have_a_release_date()
+    {
+        $book = factory(Book::class)->make(['release_date' => null])->toArray();
+
+        $this->response = $this->postJson('books', $book);
+
+        $this->assertHasValidationError('release_date');
+    }
+
+    /** @test */
+    public function a_book_must_have_a_price()
+    {
+        $book = factory(Book::class)->make(['price' => null])->toArray();
+
+        $this->response = $this->postJson('books', $book);
+
+        $this->assertHasValidationError('price');
+    }
+
+    /** @test */
+    public function a_books_price_must_be_an_integer()
+    {
+        $book = factory(Book::class)->create(['price' => '12.50'])->toArray();
+        $this->response = $this->postJson('books', $book);
+
+        $this->assertHasValidationError('price');
     }
 }
