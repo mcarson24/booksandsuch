@@ -12,3 +12,4 @@
 */
 
 Route::get('books/{book}', 'BooksController@show');
+Route::post('books', 'BooksController@store');

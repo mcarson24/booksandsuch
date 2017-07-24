@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
+    protected $guarded = [];
     protected $dates = ['release_date'];
 
     public function scopePublished($query)

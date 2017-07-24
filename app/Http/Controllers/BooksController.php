@@ -11,4 +11,14 @@ class BooksController extends Controller
     {
     	return view('books.show', compact('book'));
     }
+
+    public function store()
+    {
+    	$this->validate(request(), [
+    		'title' => 'required',
+    		'author' => 'required'
+		]);
+
+    	Book::create(request()->only(['title', 'author', 'description', 'price', 'release_date', 'published_at']));
+    }
 }
