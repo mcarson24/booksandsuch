@@ -74,6 +74,20 @@ class AddingBooksTest extends TestCase
     }
 
     /** @test */
+    public function an_authenticated_user_can_delete_their_own_uploaded_books()
+    {
+        $this->disableExceptionHandling();
+        $this->signIn();
+        $book = factory(Book::class)->states('published')->create();
+        $this->delete("books/{$book->id}");
+
+        $this->assertDatabaseMissing('books', [
+            'title'     => $book->title,
+            'user_id'   => $book->user_id
+        ]);
+    }
+
+    /** @test */
     public function a_book_must_have_a_title()
     {
         $this->signIn();

@@ -13,7 +13,8 @@
 
 Route::get('books/{book}', 'BooksController@show');
 Route::post('books', 'BooksController@store');
+Route::delete('books/{book}', 'BooksController@destroy');
+
+Route::get('home', 'HomeController@index')->name('home');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
