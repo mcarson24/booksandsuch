@@ -30,11 +30,11 @@ class Book extends Model
         return $this->published_at == null && $this->user_id != auth()->id();
     }
 
-    public function createOrder($email, $amount)
+    public function createOrder($user_id, $amount)
     {
         return $this->orders()->create([
-            'email'     => $email,
-            'amount'    => $amount
+            'user_id'     => $user_id,
+            'amount'      => $amount
         ]);
     }
 
@@ -45,6 +45,6 @@ class Book extends Model
 
     public function hasOrderFor(User $user)
     {
-        return $this->orders()->where('email', $user->email)->count() > 0;
+        return $this->orders()->where('user_id', $user->id)->count() > 0;
     }
 }

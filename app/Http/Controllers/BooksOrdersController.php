@@ -22,7 +22,7 @@ class BooksOrdersController extends Controller
     	
     	$this->paymentGateway->charge($book->price, request('payment_token'));
 
-    	$order = $book->createOrder(request('email'), $this->paymentGateway->totalCharges());
+    	$order = $book->createOrder(auth()->id(), $this->paymentGateway->totalCharges());
 
     	return response()->json($order, 201);
     }

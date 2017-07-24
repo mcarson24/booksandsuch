@@ -32,12 +32,12 @@ class PurchaseBooksTest extends TestCase
     	]);
 
     	$this->postJson("books/{$book->id}/orders", [
-			'email' 		=> auth()->user()->email,
+			'user_id' 		=> auth()->id(),
 			'payment_token'	=> $this->paymentGateway->getValidTestToken()
 		]);
 
 		$this->assertEquals(2000, $this->paymentGateway->totalCharges());
-		$this->assertTrue($book->hasOrderFor(auth()->user()));
-		$this->assertEquals(2000, $book->orders->where('email', $user->email)->first()->amount);
+		$this->assertTrue($book->hasOrderFor($user));
+		$this->assertEquals(2000, $book->orders->where('user_id', $user->id)->first()->amount);
     }
 }
