@@ -23,4 +23,9 @@ class Book extends Model
     {
     	return number_format($this->price / 100, 2);
     }
+
+    public function shouldBeHidden()
+    {
+        return $this->published_at == null && $this->user_id != auth()->id();
+    }
 }

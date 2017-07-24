@@ -17,7 +17,7 @@ class ViewingBooksTest extends TestCase
 	{
 		$this->disableExceptionHandling();
 
-	    $book = factory(Book::class)->states('published')->create([
+	    factory(Book::class)->states('published')->create([
 	    	'title' 		=> 'The Name of the Wind',
 	    	'author'		=> 'Patrick Rothfuss',
 	    	'release_date'	=> Carbon::parse('March 27, 2007'),
@@ -39,19 +39,18 @@ class ViewingBooksTest extends TestCase
 	}
 
 	/** @test */
-	public function user_cannot_view_an_unpublished_book()
+	public function users_cannot_view_an_unpublished_book()
 	{
 	    $book = factory(Book::class)->states('unpublished')->create();
-
+	    
 	    $response = $this->get("books/{$book->id}");
 
 	    $response->assertStatus(404);
 	}
 
-	/** @XXXtest */
+	/** @test */
 	public function a_user_can_view_their_own_unpublished_books()
 	{
-		// $this->disableExceptionHandling();
 	    $user = $this->signIn();
 	    $book = factory(Book::class)->states('unpublished')->create(['user_id' => $user->id]);
 

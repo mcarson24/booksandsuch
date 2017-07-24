@@ -25,10 +25,6 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-
-        Route::bind('book', function($book) {
-            return Book::published()->findOrFail($book);
-        });
     }
 
     /**

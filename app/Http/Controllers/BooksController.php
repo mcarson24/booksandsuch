@@ -13,8 +13,15 @@ class BooksController extends Controller
         $this->middleware('auth')->only('store');
 	}
 
-    public function show(Book $book)
+    public function show($id)
     {
+        $book = Book::findOrFail($id);
+        
+        if ($book->shouldBeHidden())
+        {   
+            throw new ModelNotFoundException;
+        }
+
     	return view('books.show', compact('book'));
     }
 
