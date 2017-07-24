@@ -27,6 +27,10 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot();
 
         Route::bind('book', function($book) {
+            // If the user wants one of their books return  
+            // it, irregardless of it's published field.
+            $book = Book::findOrFail($book);
+            if ($book->user_id == auth()->id()) return $book;
             return Book::published()->findOrFail($book);
         });
     }

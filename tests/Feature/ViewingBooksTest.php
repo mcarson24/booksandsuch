@@ -49,6 +49,18 @@ class ViewingBooksTest extends TestCase
 	}
 
 	/** @test */
+	public function a_user_can_view_their_own_unpublished_books()
+	{
+		$this->disableExceptionHandling();
+	    $user = $this->signIn();
+	    $book = factory(Book::class)->states('unpublished')->create(['user_id' => $user->id]);
+
+	    $response = $this->get("books/{$book->id}");
+	    $response->assertStatus(200);
+	    $response->assertSee($book->title);
+	}
+
+	/** @test */
 	public function can_view_all_of_a_users_books()
 	{
 	    $user = factory(User::class)->create();

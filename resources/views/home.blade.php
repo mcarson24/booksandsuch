@@ -17,7 +17,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         @foreach($user->UploadedBooks as $book)
-                                            <li>{{ $book->title }}</li>
+                                            <li><a href="{{ action('BooksController@show', $book) }}">{{ $book->title }}</a></li>
                                         @endforeach
                                     </ul>
                                 </div>
