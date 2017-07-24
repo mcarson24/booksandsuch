@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Exceptions\Handler;
+use App\User;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\CreatesApplication;
@@ -20,5 +21,14 @@ abstract class TestCase extends BaseTestCase
                 throw $e;
             }
         });
+    }
+
+    protected function signIn(User $user = null)
+    {
+        $user = $user ?? factory(User::class)->create();
+
+        $this->be($user);
+
+        return $user;
     }
 }

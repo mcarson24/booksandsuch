@@ -53,15 +53,11 @@ class ViewingBooksTest extends TestCase
 	{
 	    $user = factory(User::class)->create();
 
-	    $book = factory(Book::class)->make([
+	    $book = factory(Book::class)->create([
 	    	'title'   => 'The Count of Monte Cristo',
 	    	'user_id' => $user->id
-    	])->toArray();
-
-	    $response = $this->postJson('books', $book);
-	    
-	    $response->assertJson([
-	    	'title' => 'The Count of Monte Cristo'
     	]);
+
+	    $this->assertEquals('The Count of Monte Cristo', $user->uploadedBooks->first()->title);
 	}
 }
