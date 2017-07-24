@@ -29,7 +29,10 @@ $factory->define(App\Book::class, function (Faker\Generator $faker) {
         'author' 		=> 'Thomas Author',
         'release_date'	=> \Carbon\Carbon::parse('January 1, 2017'),
         'description' 	=> $faker->paragraph,
-        'price' 	  	=> '2500'
+        'price' 	  	=> '2500',
+        'user_id'       => function() {
+            return factory(App\User::class)->create()->id;
+        }
     ];
 });
 

@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class BooksController extends Controller
 {
+	public function __construct()
+	{
+		$this->middleware('auth')->only('store');
+	}
+
     public function show(Book $book)
     {
     	return view('books.show', compact('book'));
@@ -22,7 +27,7 @@ class BooksController extends Controller
     		'price'			=> 'required|integer|min:1'
 		]);
 
-    	$book = Book::create(request()->only(['title', 'author', 'description', 'price', 'release_date', 'published_at', 'user_id']));
+    	$book = auth()->user()->uploadBook(request());
 
     	return response()->json($book, 201);
     }

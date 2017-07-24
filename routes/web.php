@@ -13,3 +13,7 @@
 
 Route::get('books/{book}', 'BooksController@show');
 Route::post('books', 'BooksController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
