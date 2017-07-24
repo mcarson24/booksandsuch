@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Order;
 use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
@@ -27,5 +28,23 @@ class Book extends Model
     public function shouldBeHidden()
     {
         return $this->published_at == null && $this->user_id != auth()->id();
+    }
+
+    public function createOrder($email, $amount)
+    {
+        return $this->orders()->create([
+            'email'     => $email,
+            'amount'    => $amount
+        ]);
+    }
+
+    public function orders()
+    {
+        return $this->HasMany(Order::class);
+    }
+
+    public function hasOrderFor(User $user)
+    {
+        return $this->orders()->where('email', $user->email)->count() > 0;
     }
 }

@@ -14,6 +14,8 @@
 Route::get('books/{id}', 'BooksController@show');
 Route::post('books', 'BooksController@store');
 Route::delete('books/{book}', 'BooksController@destroy');
+Route::post('books/{book}/orders', 'BooksOrdersController@store');
+
 
 Route::get('home', 'HomeController@index')->name('home');
 
