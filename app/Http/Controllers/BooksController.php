@@ -17,9 +17,9 @@ class BooksController extends Controller
     	$this->validate(request(), [
     		'title' 		=> 'required',
     		'author' 		=> 'required',
-    		'description'	=> 'required',
+    		'description'	=> 'required|min:10',
     		'release_date'	=> 'required',
-    		'price'			=> 'required|integer'
+    		'price'			=> 'required|integer|min:1'
 		]);
 
     	Book::create(request()->only(['title', 'author', 'description', 'price', 'release_date', 'published_at']));

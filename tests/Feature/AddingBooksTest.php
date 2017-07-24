@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Book;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -40,6 +41,34 @@ class AddingBooksTest extends TestCase
 		]);
 
 		$response->assertStatus(201);
+    }
+
+    /** @test */
+    public function a_user_can_add_an_published_book()
+    {
+    	$this->disableExceptionHandling();
+
+    	$book = factory(Book::class)->make();
+
+        $response = $this->post('books', [
+        	'title' 		=> $book->title,
+        	'author'		=> $book->author,
+        	'release_date'	=> $book->release_date,
+        	'description'	=> $book->description,
+        	'price'			=> $book->price,
+        	'published_at' 	=> $published_at = Carbon::now()
+    	]);
+
+    	$this->assertDatabaseHas('books', [
+    		'title'			=> $book->title,
+    		'author' 		=> $book->author,
+    		'published_at'	=> $published_at
+		]);
+
+		$response->assertStatus(201);
+
+		$response = $this->get('books/1');
+		$response->assertStatus(200);
     }
 
     /** @test */
@@ -101,5 +130,23 @@ class AddingBooksTest extends TestCase
         $this->response = $this->postJson('books', $book);
 
         $this->assertHasValidationError('price');
+    }
+
+    /** @test */
+    public function a_books_price_must_be_greater_than_zero()
+    {
+        $book = factory(Book::class)->create(['price' => '-2400'])->toArray();
+        $this->response = $this->postJson('books', $book);
+
+        $this->assertHasValidationError('price');
+    }
+
+    /** @test */
+    public function a_books_description_should_be_at_least_ten_characters()
+    {
+        $book = factory(Book::class)->create(['description' => 'Short De'])->toArray();
+        $this->response = $this->postJson('books', $book);
+
+        $this->assertHasValidationError('description');
     }
 }
