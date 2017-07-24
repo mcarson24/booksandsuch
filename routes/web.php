@@ -11,4 +11,4 @@
 |
 */
 
-Route::get('books/{id}', 'BooksController@show');
+Route::get('books/{book}', 'BooksController@show');

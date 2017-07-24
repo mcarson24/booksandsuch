@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 
 class BooksController extends Controller
 {
-    public function show($id)
+    public function show(Book $book)
     {
-    	$book = Book::whereNotNull('published_at')->findOrFail($id);
-
     	return view('books.show', compact('book'));
     }
 }
