@@ -23,7 +23,7 @@ class PurchaseBooksTest extends TestCase
 	}
 
     /** @test */
-    public function user_can_purchase_books_to_a_published_book()
+    public function a_user_can_purchase_books()
     {
     	$this->disableExceptionHandling();
     	$user = $this->signIn();
