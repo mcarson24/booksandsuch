@@ -36,6 +36,18 @@ $factory->define(App\Book::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Order::class, function (Faker\Generator $faker) {
+    return [
+        'user_id'       => function() {
+            return factory(App\User::class)->create()->id;
+        },
+        'book_id'       => function() {
+            return factory(App\Book::class)->create()->id;
+        },
+        'amount'        => 1500
+    ];
+});
+
 $factory->state(App\Book::class, 'published', function (Faker\Generator $faker) {
     return [
         'published_at'  => \Carbon\Carbon::now()->subWeek()

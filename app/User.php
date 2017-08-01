@@ -42,4 +42,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Book::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function purchasedBooks()
+    {   
+        return $this->orders();
+    }
 }

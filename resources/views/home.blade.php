@@ -26,7 +26,14 @@
                         <div class="col-md-4">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <div class="panel-heading">Your Uploaded Books</div>
+                                    <div class="panel-heading">Your Purchased Books</div>
+                                </div>
+                                <div class="panel-body">
+                                    <ul>
+                                        @foreach($user->purchasedBooks as $order)
+                                            <li><a href="{{ action('BooksController@show', $order->book) }}">{{ $order->book->title }}</a></li>
+                                        @endforeach
+                                    </ul>
                                 </div>
                             </div>
                         </div>
