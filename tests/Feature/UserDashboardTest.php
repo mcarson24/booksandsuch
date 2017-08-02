@@ -51,4 +51,22 @@ class UserDashboardTest extends TestCase
 
         $response->assertSee('1984');
     }
+
+    /** @test */
+    public function a_users_dashboard_displays_a_users_sold_books()
+    {
+        $this->disableExceptionHandling();
+
+        $user = $this->signIn();
+        $book = factory(Book::class)->create(['user_id' => $user->id, 'title' => '1984']);
+        $otherUser = factory(User::class)->create();
+        $anotherUser = factory(User::class)->create();
+
+        $book->createOrder($otherUser->id, $book->price);
+        $book->createOrder($anotherUser->id, $book->price);
+        $response = $this->get('home');
+        
+        $response->assertSee("'1984' to {$otherUser->name}");        
+        $response->assertSee("'1984' to {$anotherUser->name}");        
+    }
 }

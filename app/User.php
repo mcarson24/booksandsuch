@@ -40,16 +40,21 @@ class User extends Authenticatable
      */
     public function uploadedBooks()
     {
-        return $this->hasMany(Book::class);
+        return $this->hasMany(Book::class, 'user_id');
     }
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'buyer_id');
     }
 
     public function purchasedBooks()
     {   
         return $this->orders();
+    }
+
+    public function soldBooks()
+    {
+        return $this->hasManyThrough(Order::class, Book::class, 'user_id', 'book_id', 'id');
     }
 }

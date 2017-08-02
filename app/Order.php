@@ -12,4 +12,14 @@ class Order extends Model
 	{
 		return $this->belongsTo(Book::class);
 	}
+
+	public function user()
+	{
+		return $this->belongsTo(User::class, 'buyer_id');
+	}
+
+	public function buyer()
+	{
+		return $this->user();
+	}
 }
