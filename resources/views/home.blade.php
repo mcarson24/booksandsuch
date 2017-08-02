@@ -40,7 +40,12 @@
                         <div class="col-md-4">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
-                                    <div class="panel-heading">Your Uploaded Books</div>
+                                    <div class="panel-heading">Your Recent Sales</div>
+                                </div>
+                                <div class="panel-body">
+                                    @foreach ($user->soldBooks as $order)
+                                        <li>'{{ $order->book->title }}' to {{ $order->buyer->name }}</li>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

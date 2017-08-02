@@ -33,18 +33,23 @@ class Book extends Model
     public function createOrder($user_id, $amount)
     {
         return $this->orders()->create([
-            'user_id'     => $user_id,
+            'buyer_id'     => $user_id,
             'amount'      => $amount
         ]);
     }
 
     public function orders()
     {
-        return $this->HasMany(Order::class);
+        return $this->hasOne(Order::class);
     }
 
     public function hasOrderFor(User $user)
     {
-        return $this->orders()->where('user_id', $user->id)->count() > 0;
+        return $this->orders()->where('buyer_id', $user->id)->count() > 0;
+    }
+
+    public function uploaded_by()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

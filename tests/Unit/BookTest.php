@@ -3,10 +3,11 @@
 namespace Tests\Unit;
 
 use App\Book;
+use App\User;
 use Carbon\Carbon;
+use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 
 class BookTest extends TestCase
 {
@@ -26,5 +27,14 @@ class BookTest extends TestCase
         $book = factory(Book::class)->create(['price' => '1200']);
 
         $this->assertEquals('12.00', $book->formatted_price);
+    }
+
+    /** @test */
+    public function it_knows_its_uploader()
+    {
+        $user = factory(User::class)->create(['name' => 'John Doe']);
+        $book = factory(Book::class)->create(['user_id' => $user->id]);
+
+        $this->assertEquals('John Doe', $book->uploaded_by->name);
     }
 }

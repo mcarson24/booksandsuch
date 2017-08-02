@@ -38,6 +38,6 @@ class PurchaseBooksTest extends TestCase
 
 		$this->assertEquals(2000, $this->paymentGateway->totalCharges());
 		$this->assertTrue($book->hasOrderFor($user));
-		$this->assertEquals(2000, $book->orders->where('user_id', $user->id)->first()->amount);
+		$this->assertEquals(2000, $book->orders->where('buyer_id', $user->id)->first()->amount);
     }
 }

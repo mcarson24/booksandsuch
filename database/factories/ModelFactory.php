@@ -38,7 +38,7 @@ $factory->define(App\Book::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Order::class, function (Faker\Generator $faker) {
     return [
-        'user_id'       => function() {
+        'buyer_id'       => function() {
             return factory(App\User::class)->create()->id;
         },
         'book_id'       => function() {
